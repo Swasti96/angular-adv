@@ -1,38 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+//Modulos
+import { PagesRoutingModule } from './pages/pages.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
+
 //Import components
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { Grafica1Component } from './pages/grafica1/grafica1.component';
-import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
-import { PagesComponent } from './pages/pages.component';
-import { ProgressComponent } from './pages/progress/progress.component';
+import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 const routes: Routes = [
-  //Private Routes
-  {
-    path: '',
-    component: PagesComponent,
-    children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'progress', component: ProgressComponent },
-      { path: 'grafica1', component: Grafica1Component },
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, //Redirecciona a nuestro dashboard ( Home )
-    ]
-  },
-  //Public Routes
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
 
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, //Redirecciona a nuestro dashboard ( Home )
   { path: '**', component: NopagefoundComponent }, //Cualquier ruta que no este definida en nuestras rutas, va a mostrar pageNotFound
+
 ];
 
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    PagesRoutingModule,
+    AuthRoutingModule
   ],
   exports: [RouterModule],
 })
