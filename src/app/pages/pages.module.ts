@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//common incluye las directa del ngfor y el ngif, entre otras cosas
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 //Modulo
 import { SharedModule } from '../shared/shared.module';
-import { RouterModule } from '@angular/router';
+import { ComponentsModule } from '../components/components.module';
 
 //Import componentes
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -19,18 +20,20 @@ import { PagesComponent } from './pages.component';
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
-    PagesComponent
+    PagesComponent,
   ],
   exports: [
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
-    PagesComponent
+    PagesComponent,
   ],
   imports: [
+    FormsModule,
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    ComponentsModule,
   ]
 })
 export class PagesModule { }

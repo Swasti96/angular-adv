@@ -1,1 +1,59 @@
-<p>progress works!</p>
+<!--PROGRESS BAR-->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Striped Progress bar</h4>
+                <div class="progress m-t-20">
+                    <div class="progress-bar bg-primary progress-bar-striped active" 
+                        style="height:10px;"
+                        [style.width]="getProgreso1" 
+                        role="progressbar">
+                        <!--[] Entiende que lo recive de ts-->
+                    </div>
+                </div>
+                <div class="progress m-t-20">
+                    <div class="progress-bar bg-info progress-bar-striped active" 
+                        style="height:10px;"
+                        [style.width]="getProgreso2" 
+                        role="progressbar">
+                        <!--[] Entiende que lo recive de ts-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--INPUT FORM-->
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <!-- Componente hijo -->
+                <!-- valorDeSalida es el Output(evento) del componente hijo incrementador, $event permite recibir el valor del evento -->
+                <app-incrementador 
+                    (valorDeSalida)="progreso1 = $event" 
+                    [valor]="progreso1"
+                >
+                </app-incrementador> 
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+          
+                <app-incrementador
+                    (valorDeSalida)="progreso2 = $event" 
+                    [valor]="progreso2"
+                    [btnClass]="'btn-info'"
+                > 
+                </app-incrementador>
+
+            </div>
+        </div>
+    </div>
+</div>
