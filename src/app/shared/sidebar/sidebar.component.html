@@ -33,7 +33,12 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let subMenuItem of item.submenu">
-                            <a [routerLink]="subMenuItem.url"> {{subMenuItem.titulo}} </a>
+                            <a [routerLink]="subMenuItem.url"
+                                routerLinkActive="active"
+                                [routerLinkActiveOptions]="{exact: true}"> 
+                                {{subMenuItem.titulo}} </a>
+                                <!-- Active, llama a la clase de boostrap, para resaltar donde estoy parado, como todas las rutas estas acompañadas de dashboard
+                                tambien marca el main, esto se revuelvo con la opcion exact -->
                         </li>
                     </ul>
                 </li>
