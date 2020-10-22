@@ -12,15 +12,17 @@ import { UserService } from 'src/app/services/user.service';
     './register.component.css'
   ]
 })
+
+// TODO: El signup no esta capturando el error al no aceptar los terminos, incluso crea el user
 export class RegisterComponent {
 
   public formSubmitted = false;
 
   public registerForm = this.fb.group({
-    name: ['Federico', [Validators.required, Validators.minLength(3)]],
-    email: ['test100@gmail.com', [Validators.required, Validators.email]],
-    password: ['1234', Validators.required],
-    password2: ['1234', Validators.required],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    password2: ['', Validators.required],
     terms: [true, Validators.required]
   }, {
     validators: this.matchPasswords('password', 'password2')
