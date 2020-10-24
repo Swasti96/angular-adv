@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
+import { User } from '../models/user.models';
 
+import { getUser } from '../interfaces/getUsers.interface';
 import { LoginForm } from '../interfaces/loginForm.interfaces';
 import { RegisterForm } from '../interfaces/registerForm.interfaces';
-import { User } from '../models/user.models';
 
 
 const base_url = environment.base_url;
@@ -34,7 +36,15 @@ export class UserService {
   }
 
   get uid(): string {
-    return this.user.uid || '';
+    return this.user._id || '';
+  }
+
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
   }
 
   googleInit = function () {
@@ -86,7 +96,6 @@ export class UserService {
     )
   }
 
-
   createUser(formData: RegisterForm) {
 
     return this.http.post(`${base_url}/users/add-user`, formData) //Retorna un observable
@@ -97,19 +106,14 @@ export class UserService {
       )
   }
 
-
-  updateUser(data: { name: string, email: string, role:string }) {
+  updateUser(data: { name: string, email: string, rol: string }) {
 
     data = {
       ...data,
-      role: this.user.rol
+      rol: this.user.rol
     }
 
-    return this.http.put(`${base_url}/users/update-user/${this.uid}`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${base_url}/users/update-user/${this.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm) {
@@ -132,6 +136,32 @@ export class UserService {
         })
       )
 
+  }
+
+  getUsers(pageNumber: number = 0) {
+    return this.http.get<getUser>(`${base_url}/users?pageNumber=${pageNumber}`, this.headers)
+      .pipe(
+        map(resp => {
+          const users = resp.users.map(user => new User(user.name, user.email, '', user.img, user.rol, user.google, user._id))
+
+          return {
+            total: resp.total,
+            users
+          };
+        })
+      )
+    // Implemento interface getUser para poder destructurar la respuesta que recibo de este servicio
+  }
+
+  deleteUser(user: User) {
+    // http://localhost:3000/api/users/remove-user/5f88b135de64741b48eda1a3
+    return this.http.delete(`${base_url}/users/remove-user/${user._id}`, this.headers)
+    
+  }
+
+  saveUser(user:User) {
+
+    return this.http.put(`${base_url}/users/update-user/${user._id}`, user, this.headers);
   }
 }
 

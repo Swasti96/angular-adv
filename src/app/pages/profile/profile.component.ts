@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
 
   //Subir imagen
   uploadImage() {
-    this.fileUploadService.updatedImage(this.image, 'users', this.user.uid)
+    this.fileUploadService.updatedImage(this.image, 'users', this.user._id)
       .then(img => {
         this.user.img = img
         Swal.fire('Saved', 'Image updated', 'success');
