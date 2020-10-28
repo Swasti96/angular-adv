@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+
+import { Hospital } from '../models/hospital.models';
+import { Medic } from '../models/medic.model';
 import { User } from '../models/user.models';
 
 const base_url = environment.base_url;
@@ -34,6 +37,14 @@ export class SeekerService {
     )
   }
 
+  private transformHospital(result: any[]): Hospital[] {
+    return result
+  }
+
+  private transformMedic(result: any[]): Medic[] {
+    return result
+  }
+
   searchUsers(type: 'users' | 'medics' | 'hospitals', term: string) {
     return this.http.get<any[]>(`${base_url}/all/seeker/${type}/${term}`, this.headers)
       .pipe(
@@ -41,10 +52,13 @@ export class SeekerService {
 
           switch (type) {
             case 'users':
-              // const usersTranform = resp.result.map(user => new User(user.name, user.email, '', user.img, user.rol, user.google, user._id))
-              // return usersTranform
-            return this.transformUser(resp.result)
+              return this.transformUser(resp.result);
 
+            case 'hospitals':
+              return this.transformHospital(resp.result);
+
+            case 'medics':
+              return this.transformMedic(resp.result);
             default:
               return []
           }

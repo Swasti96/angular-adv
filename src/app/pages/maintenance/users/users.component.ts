@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     this.imageSubs = this.modalImageService.newImage
       .pipe(
-        delay(100)
+        delay(1000)
       )
       .subscribe(img => {
         this.getUsers()
@@ -76,7 +76,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
 
     this.seekerService.searchUsers('users', term)
-      .subscribe(resp => {
+      .subscribe((resp: User[]) => {
         this.users = resp
       })
   }
