@@ -67,4 +67,8 @@ export class SeekerService {
       )
   }
 
+  globalSearch(term: string) {
+    return this.http.get(`${base_url}/all/seeker/${term}`, this.headers)
+  }
+
 }

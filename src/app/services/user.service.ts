@@ -31,6 +31,10 @@ export class UserService {
     this.googleInit();
   }
 
+  get rol():'ADMIN_ROL'|'USER_ROL'{
+    return this.user.rol;
+  }
+
   get token(): string {
     return localStorage.getItem('token') || '';
   }
@@ -65,6 +69,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
     this.auth2.signOut().then(() => {
       this.ngZone.run(() => {
@@ -88,7 +93,8 @@ export class UserService {
         this.user = new User(name, email, '', img, rol, google, _id);
         this.user.printUser();
 
-        localStorage.setItem('token', resp.token)
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
 
         return true
       }),
@@ -101,7 +107,8 @@ export class UserService {
     return this.http.post(`${base_url}/users/add-user`, formData) //Retorna un observable
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('menu', JSON.stringify(resp.menu));
         })
       )
   }
@@ -121,7 +128,8 @@ export class UserService {
     return this.http.post(`${base_url}/login`, formData) //Retorna un observable
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('menu', JSON.stringify(resp.menu));
         })
       )
 
@@ -132,7 +140,8 @@ export class UserService {
     return this.http.post(`${base_url}/login/google`, { token }) //Retorna un observable
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token)
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('menu', JSON.stringify(resp.menu));
         })
       )
 
@@ -156,10 +165,10 @@ export class UserService {
   deleteUser(user: User) {
     // http://localhost:3000/api/users/remove-user/5f88b135de64741b48eda1a3
     return this.http.delete(`${base_url}/users/remove-user/${user._id}`, this.headers)
-    
+
   }
 
-  saveUser(user:User) {
+  saveUser(user: User) {
 
     return this.http.put(`${base_url}/users/update-user/${user._id}`, user, this.headers);
   }
